@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     hmr: {
       overlay: false,
+      base: "/Student-Study-Group-Finder/",
     },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),

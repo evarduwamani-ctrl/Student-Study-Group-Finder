@@ -82,20 +82,41 @@ export default function Dashboard() {
 
   return (
     <AppLayout>
-      <div className="space-y-8 animate-fade-in">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-secondary/20 p-8 border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+      {/* Background Image - clearly visible */}
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('/dashboard-bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          opacity: 0.45,
+        }}
+        aria-hidden="true"
+      />
+      {/* Light overlay to keep text readable but still show background */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-background/40" aria-hidden="true" />
+
+      <div className="space-y-8 animate-fade-in relative z-10">
+        {/* Premium Welcome Banner */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/30 shadow-2xl shadow-primary/15 glass p-8">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/15 pointer-events-none" />
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-3">
               <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-              <span className="text-sm font-medium text-primary uppercase tracking-wider">Dashboard Overview</span>
+              <span className="text-xs font-bold text-primary uppercase tracking-widest">Dashboard Overview</span>
             </div>
-            <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground mt-1">
-              Welcome back, <span className="text-gradient">{profile?.full_name || "Student"}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground mt-1 leading-tight">
+              Welcome back,{" "}
+              <span className="text-gradient">{profile?.full_name || "Student"}</span>
             </h1>
-            <p className="mt-3 text-lg text-muted-foreground max-w-2xl">Here's what's happening in your study groups today. Jump back in or find a new group to join.</p>
+            <p className="mt-3 text-lg text-muted-foreground max-w-2xl">
+              Here's what's happening in your study groups today. Jump back in or find a new group to join.
+            </p>
           </div>
-          <div className="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 right-20 h-40 w-40 rounded-full bg-accent/20 blur-3xl pointer-events-none" />
+          {/* Decorative orbs */}
+          <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-primary/15 blur-3xl pointer-events-none animate-float" />
+          <div className="absolute -bottom-16 right-24 h-48 w-48 rounded-full bg-accent/20 blur-3xl pointer-events-none animate-float [animation-delay:3s]" />
         </div>
 
         {isAdmin && (
@@ -122,42 +143,42 @@ export default function Dashboard() {
 
         {/* Quick Stats */}
         <div className="grid gap-6 sm:grid-cols-3">
-          <Card className="group overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 hover:border-primary/30">
-            <CardContent className="flex items-center gap-5 pt-6 pb-6 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              <div className="relative rounded-xl bg-primary/10 p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner">
+          <div className="group glass rounded-2xl overflow-hidden border border-white/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/15 hover:-translate-y-1 hover:border-primary/40">
+            <div className="flex items-center gap-5 p-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl" />
+              <div className="relative rounded-xl bg-primary/15 p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner border border-primary/20">
                 <Users className="h-7 w-7 text-primary" />
               </div>
               <div className="relative">
                 <p className="text-4xl font-display font-bold tracking-tight text-foreground">{myGroups.length}</p>
-                <p className="text-sm font-medium text-muted-foreground mt-1">My Groups</p>
+                <p className="text-sm font-semibold text-muted-foreground mt-1">My Groups</p>
               </div>
-            </CardContent>
-          </Card>
-          <Card className="group overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 hover:border-accent/30">
-            <CardContent className="flex items-center gap-5 pt-6 pb-6 relative">
-               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              <div className="relative rounded-xl bg-accent/20 p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner">
+            </div>
+          </div>
+          <div className="group glass rounded-2xl overflow-hidden border border-white/40 transition-all duration-300 hover:shadow-xl hover:shadow-accent/15 hover:-translate-y-1 hover:border-accent/40">
+            <div className="flex items-center gap-5 p-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl" />
+              <div className="relative rounded-xl bg-accent/20 p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner border border-accent/20">
                 <Calendar className="h-7 w-7 text-accent-foreground" />
               </div>
               <div className="relative">
                 <p className="text-4xl font-display font-bold tracking-tight text-foreground">{upcomingSessions.length}</p>
-                <p className="text-sm font-medium text-muted-foreground mt-1">Upcoming Sessions</p>
+                <p className="text-sm font-semibold text-muted-foreground mt-1">Upcoming Sessions</p>
               </div>
-            </CardContent>
-          </Card>
-          <Card className="group overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 hover:border-secondary/30">
-            <CardContent className="flex items-center gap-5 pt-6 pb-6 relative">
-               <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              <div className="relative rounded-xl bg-secondary p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner">
+            </div>
+          </div>
+          <div className="group glass rounded-2xl overflow-hidden border border-white/40 transition-all duration-300 hover:shadow-xl hover:shadow-secondary/15 hover:-translate-y-1 hover:border-secondary/40">
+            <div className="flex items-center gap-5 p-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl" />
+              <div className="relative rounded-xl bg-secondary/60 p-4 transition-transform group-hover:scale-110 group-hover:rotate-3 shadow-inner border border-secondary/30">
                 <BookOpen className="h-7 w-7 text-secondary-foreground" />
               </div>
               <div className="relative">
                 <p className="text-4xl font-display font-bold tracking-tight text-foreground">{recentGroups.length}</p>
-                <p className="text-sm font-medium text-muted-foreground mt-1">New Groups</p>
+                <p className="text-sm font-semibold text-muted-foreground mt-1">New Groups</p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* My Groups */}
@@ -171,36 +192,38 @@ export default function Dashboard() {
             </Link>
           </div>
           {myGroups.length === 0 ? (
-            <Card className="border-dashed border-2 bg-background/50 backdrop-blur-sm">
-              <CardContent className="py-12 text-center">
-                <Users className="mx-auto h-12 w-12 text-muted-foreground/50" />
-                <p className="mt-4 text-muted-foreground">You haven't joined any groups yet.</p>
+            <div className="glass rounded-2xl border border-dashed border-border/60">
+              <div className="py-14 text-center">
+                <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                  <Users className="h-7 w-7 text-primary/60" />
+                </div>
+                <p className="text-muted-foreground font-medium">You haven't joined any groups yet.</p>
                 <Link to="/groups">
-                  <Button variant="outline" className="mt-4">Browse Groups</Button>
+                  <Button variant="outline" className="mt-4 rounded-xl hover-glow">Browse Groups</Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {myGroups.map((group) => (
                 <Link key={group.id} to={`/groups/${group.id}`}>
-                  <Card className="group h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-border/50 hover:border-primary/30 bg-card overflow-hidden">
-                    <div className="h-2 w-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CardHeader className="pb-3">
+                  <div className="group glass h-full flex flex-col rounded-2xl border border-white/40 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-primary/15 hover:-translate-y-1.5 hover:border-primary/40">
+                    <div className="h-1.5 w-full bg-gradient-to-r from-primary via-accent to-primary/60" />
+                    <div className="p-6 pb-3">
                       <div className="flex justify-between items-start gap-2">
-                        <CardTitle className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">{group.name}</CardTitle>
-                        <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all group-hover:text-primary" />
+                        <h3 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors font-display">{group.name}</h3>
+                        <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all group-hover:text-primary flex-shrink-0" />
                       </div>
-                    </CardHeader>
-                    <CardContent className="flex-1 flex flex-col">
+                    </div>
+                    <div className="px-6 pb-6 flex-1 flex flex-col">
                       <div className="mb-3">
-                        <Badge variant="secondary" className="px-2 py-1 font-medium bg-secondary/50 text-secondary-foreground hover:bg-secondary/70 transition-colors">
+                        <Badge variant="secondary" className="px-2 py-1 font-medium bg-primary/10 text-primary border border-primary/20">
                           {group.course_code || group.course_name}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground line-clamp-3 mb-4 flex-1">{group.description}</p>
-                    </CardContent>
-                  </Card>
+                      <p className="text-sm text-muted-foreground line-clamp-3 flex-1">{group.description}</p>
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -215,10 +238,10 @@ export default function Dashboard() {
             </h2>
             <div className="space-y-4">
               {upcomingSessions.map((session) => (
-                <Card key={session.id} className="group transition-all duration-300 hover:shadow-md hover:border-primary/20 bg-card overflow-hidden">
-                  <div className="absolute left-0 top-0 h-full w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top" />
-                  <CardContent className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-6 relative">
-                    <div className="rounded-xl bg-primary/10 p-3 shadow-inner group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden sm:block">
+                <div key={session.id} className="group glass rounded-2xl border border-white/40 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+                  <div className="h-1 w-full bg-gradient-to-r from-primary/60 to-accent/60 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-6 relative">
+                    <div className="rounded-xl bg-primary/10 p-3 shadow-inner group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden sm:flex items-center justify-center border border-primary/20">
                       <Calendar className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
                     </div>
                     <div className="flex-1">
@@ -232,12 +255,12 @@ export default function Dashboard() {
                       </div>
                     </div>
                     {session.location && (
-                      <Badge variant="outline" className="sm:ml-auto w-fit bg-background shadow-sm border-border backdrop-blur-sm px-3 py-1 text-sm">
+                      <Badge variant="outline" className="sm:ml-auto w-fit glass border-border/60 backdrop-blur-sm px-3 py-1 text-sm">
                         📍 {session.location}
                       </Badge>
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -256,20 +279,20 @@ export default function Dashboard() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {recentGroups.map((group) => (
               <Link key={group.id} to={`/groups/${group.id}`}>
-                <Card className="group h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 bg-card overflow-hidden relative">
-                  <div className="absolute top-0 right-0 h-20 w-20 bg-gradient-to-bl from-accent/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                  <CardHeader className="pb-2 relative z-10">
-                    <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors leading-tight line-clamp-1">{group.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-1 flex flex-col relative z-10 pt-2">
+                <div className="group glass h-full flex flex-col rounded-2xl border border-white/40 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-accent/15 hover:-translate-y-1.5 hover:border-accent/40 relative">
+                  <div className="absolute top-0 right-0 h-20 w-20 bg-gradient-to-bl from-accent/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  <div className="p-5 pb-2 relative z-10">
+                    <h3 className="text-lg font-bold group-hover:text-primary transition-colors leading-tight line-clamp-1 font-display">{group.name}</h3>
+                  </div>
+                  <div className="flex-1 flex flex-col relative z-10 px-5 pb-5 pt-2">
                     <div className="mb-3">
-                      <Badge variant="secondary" className="bg-secondary/50 font-medium text-xs">
+                      <Badge variant="secondary" className="bg-accent/15 font-medium text-xs text-accent-foreground border border-accent/20">
                         {group.course_code || group.course_name}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-2 mt-auto">{group.description}</p>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>

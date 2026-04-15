@@ -58,6 +58,7 @@ export default function GroupDetail() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isMember, setIsMember] = useState(false);
   const [isLeader, setIsLeader] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [newPost, setNewPost] = useState("");
   const [sessionForm, setSessionForm] = useState({ title: "", description: "", session_date: "", session_time: "", location: "", meeting_link: "" });
   const [showSessionDialog, setShowSessionDialog] = useState(false);
@@ -75,6 +76,10 @@ export default function GroupDetail() {
       setGroup(g);
       setIsLeader(g.leader_id === user.id);
     }
+    
+    // Check if the user is an admin
+    const { data: adminData } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+    setIsAdmin(!!adminData);
 
     // Members with profiles
     const { data: membersData } = await supabase
@@ -142,7 +147,7 @@ export default function GroupDetail() {
   };
 
   const handleRemoveMember = async (userId: string) => {
-    if (!id) return;
+    if (!id || !isAdmin) return;
     await supabase.from("group_members").delete().eq("group_id", id).eq("user_id", userId);
     toast.success("Member removed");
     loadGroup();
@@ -150,7 +155,7 @@ export default function GroupDetail() {
 
   const handleCreateSession = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !id) return;
+    if (!user || !id || !isAdmin) return;
     const { error } = await supabase.from("study_sessions").insert({
       ...sessionForm,
       group_id: id,
@@ -182,6 +187,7 @@ export default function GroupDetail() {
   };
 
   const handleDeletePost = async (postId: string) => {
+    if (!isAdmin) return;
     await supabase.from("group_posts").delete().eq("id", postId);
     loadGroup();
   };
@@ -289,7 +295,7 @@ export default function GroupDetail() {
                           })}
                         </p>
                       </div>
-                      {post.user_id === user?.id && (
+                      {isAdmin && (
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDeletePost(post.id)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -304,7 +310,7 @@ export default function GroupDetail() {
 
           {/* Sessions */}
           <TabsContent value="sessions" className="space-y-4">
-            {isLeader && (
+            {isAdmin && (
               <Dialog open={showSessionDialog} onOpenChange={setShowSessionDialog}>
                 <DialogTrigger asChild>
                   <Button className="gap-2">
@@ -403,7 +409,7 @@ export default function GroupDetail() {
                     <p className="font-medium">{m.profile?.full_name || "Unknown"}</p>
                     <p className="text-sm text-muted-foreground">{m.profile?.program_of_study || ""}</p>
                   </div>
-                  {isLeader && m.user_id !== user?.id && (
+                  {isAdmin && m.user_id !== user?.id && (
                     <Button variant="ghost" size="sm" className="text-destructive" onClick={() => handleRemoveMember(m.user_id)}>
                       Remove
                     </Button>
