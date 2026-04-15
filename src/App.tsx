@@ -15,6 +15,7 @@ import GroupDetail from "./pages/GroupDetail";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import { HashRouter } from "react-router-dom"
 
 const queryClient = new QueryClient();
 
